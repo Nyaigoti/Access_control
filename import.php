@@ -1,13 +1,9 @@
-<?php
-session_start();
-if (!isset($_SESSION['Admin-name'])) {
-  header("location: login.php");
-}
-?>
+<?php session_start(); ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Manage Users</title>
+    <title>Manage Users</title>
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="icon" type="image/png" href="icons/atte1.jpg">
@@ -44,7 +40,8 @@ if (!isset($_SESSION['Admin-name'])) {
 	</script>
 </head>
 <body>
-<?php include'header2.php';?>
+<?php include'header.php';?>
+
 <main>
     
     <div class="container">

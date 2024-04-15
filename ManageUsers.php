@@ -46,73 +46,38 @@ if (!isset($_SESSION['Admin-name'])) {
 <body>
 <?php include'header.php';?>
 <main>
-	<h1 class="slideInDown animated">Add a new User or update his information <br> or remove him</h1>
-	<div class="form-style-5 slideInDown animated">
-		<form enctype="multipart/form-data">
-			<fieldset>
-				<label for="Device"><b>User Department:</b></label>
-                    <select name="dev_sel" id="dev_sel" style="color: #000;">
-                      <option value="0">All Departments</option>
-                      <?php
-                        require'connectDB.php';
-                        $sql = "SELECT * FROM devices ORDER BY device_name ASC";
-                        $result = mysqli_stmt_init($conn);
-                        if (!mysqli_stmt_prepare($result, $sql)) {
-                            echo '<p class="error">SQL Error</p>';
-                        } 
-                        else{
-                            mysqli_stmt_execute($result);
-                            $resultl = mysqli_stmt_get_result($result);
-                            while ($row = mysqli_fetch_assoc($resultl)){
-                      ?>
-                              <option value="<?php echo $row['id'];?>"><?php echo $row['device_dep']; ?></option>
-                      <?php
-                            }
-                        }
-                      ?>
-                    </select>
-			<legend><span class="number">1</span> User Fingerprint ID:</legend>
-				<label>Enter Fingerprint ID between 1 & 127:</label>
-				<input type="number" name="fingerid" id="fingerid" placeholder="User Fingerprint ID...">
-				<button type="button" name="fingerid_add" class="fingerid_add">Add Fingerprint ID</button>
-			</fieldset>
-			<div class="alert">
-				<label id="alert"></label>
-			</div>
-			<fieldset>
-				<legend><span class="number">2</span> User Info</legend>
-				<input type="hidden" name="finger_id" id="finger_id">
-				<input type="hidden" name="dev_id" id="dev_id">
-				<input type="text" name="name" id="name" placeholder="User Name...">
-				<input type="text" name="number" id="number" placeholder="Registration Number...">
-				<!-- <input type="email" name="email" id="email" placeholder="User Email..."> -->
-			</fieldset>
-			<label>
-				<input type="radio" name="gender" class="gender" value="Female">Female
-	          	<input type="radio" name="gender" class="gender" value="Male" checked="checked">Male
-	      	</label >
-			</fieldset>
-				<div class="row">
-					<div class="col-lg-4">
-						<button type="button" name="user_add" class="user_add">Add</button>
-					</div>
-					<div class="col-lg-4">
-						<button type="button" name="user_upd" class="user_upd">Update</button>
-					</div>
-					<div class="col-lg-4">
-						<button type="button" name="user_rmo" class="user_rmo">Remove</button>
-					</div>
-				</div>
-		</form>
-	</div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-4">
 
-	<!--User table-->
-	<div class="section">
-		
-		<div class="slideInRight animated">
-			<div id="manage_users"></div>
-		</div>
-	</div>
+                <?php
+                if(isset($_SESSION['message']))
+                {
+                    echo "<h4>".$_SESSION['message']."</h4>";
+                    unset($_SESSION['message']);
+                }
+                ?>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Upload User Data</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <form action="import_conf.php" method="POST" enctype="multipart/form-data">
+
+                            <input type="file" name="import_file" class="form-control" />
+                            <button type="submit" name="save_excel_data" class="btn btn-primary mt-3">Import</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 </body>
 </html>

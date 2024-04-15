@@ -33,10 +33,11 @@ if (!isset($_SESSION['Admin-name'])) {
       <thead class="table-primary">
         <tr>
           <th>Name</th>
-          <th>Registration Number</th>
+          <th>User Number</th>
           <th>Gender</th>
           <th>Finger ID</th>
           <th>Date</th>
+          <th>Dept</th>
         </tr>
       </thead>
       <tbody class="table-secondary">
@@ -44,7 +45,7 @@ if (!isset($_SESSION['Admin-name'])) {
           //Connect to database
           require'connectDB.php';
 
-            $sql = "SELECT * FROM users WHERE add_fingerid=0 ORDER BY id DESC";
+            $sql = "SELECT * FROM users WHERE fingerprint_id ORDER BY id DESC";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
                 echo '<p class="error">SQL Error</p>';
@@ -56,12 +57,12 @@ if (!isset($_SESSION['Admin-name'])) {
                     while ($row = mysqli_fetch_assoc($resultl)){
           ?>
                       <TR>
-                      <TD><?php echo $row['id']; echo" | "; echo $row['username'];?></TD>
-                      <TD><?php echo $row['registrationnumber'];?></TD>
+                      <TD><?php echo $row['id']; echo" | "; echo $row['name'];?></TD>
+                      <TD><?php echo $row['serialnumber'];?></TD>
                       <TD><?php echo $row['gender'];?></TD>
                       <TD><?php echo $row['fingerprint_id'];?></TD>
                       <TD><?php echo $row['user_date'];?></TD>
-                      <TD><?php echo $row['device_dep'];?></TD>
+                      <TD><?php echo $row['user_dept'];?></TD>
                       </TR>
         <?php
                     }   

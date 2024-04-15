@@ -1,0 +1,17 @@
+{
+    "name": "user/biometricattendancev3",
+    "autoload": {
+        "psr-4": {
+            "User\\Biometricattendancev3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Collins Nyaigoti",
+            "email": "osebenyaigoti@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.0"
+    }
+}
