@@ -35,9 +35,10 @@ if (!isset($_SESSION['Admin-name'])) {
           <th>Name</th>
           <th>User Number</th>
           <th>Gender</th>
+          <th>Email</th>
           <th>Finger ID</th>
-          <th>Date</th>
           <th>Dept</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody class="table-secondary">
@@ -55,14 +56,15 @@ if (!isset($_SESSION['Admin-name'])) {
                 $resultl = mysqli_stmt_get_result($result);
                 if (mysqli_num_rows($resultl) > 0){
                     while ($row = mysqli_fetch_assoc($resultl)){
-          ?>
+        ?>
                       <TR>
-                      <TD><?php echo $row['id']; echo" | "; echo $row['name'];?></TD>
+                      <TD><?php echo $row['username'];?></TD>
                       <TD><?php echo $row['serialnumber'];?></TD>
                       <TD><?php echo $row['gender'];?></TD>
-                      <TD><?php echo $row['fingerprint_id'];?></TD>
-                      <TD><?php echo $row['user_date'];?></TD>
+                      <TD><?php echo $row['email'];?></TD>
+                      <TD><?php echo $row['fingerprint_id'];?></TD>                     
                       <TD><?php echo $row['user_dept'];?></TD>
+                      <TD><?php echo "<button class='btn btn-info' data-toggle='modal' data-target='#userInfoModal' onclick='showUserInfo(" . $row['id'] . ")'>Info</button> <button class='btn btn-danger' onclick='deleteAdmin(" . $row['id'] . ")'>Delete</button>"; ?></TD>
                       </TR>
         <?php
                     }   
@@ -74,5 +76,72 @@ if (!isset($_SESSION['Admin-name'])) {
   </div>
 </section>
 </main>
+
+<script>
+function deleteAdmin(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "delete_user.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert('User deleted successfully');
+                window.location.reload(); // Reload the page to see the change
+            }
+        };
+        xhr.send("id=" + userId);
+    }
+}
+
+
+function showUserInfo(userId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "get_user_info.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var projectsHTML = '<h4>Projects:</h4><ul>';
+            response.projects.forEach(function (project) {
+                projectsHTML += '<li>' + project + '</li>';
+            });
+            projectsHTML += '</ul>';
+            var borrowedComponentsHTML = '<h4>Borrowed Components:</h4><ul>';
+            response.borrowedComponents.forEach(function (component) {
+                borrowedComponentsHTML += '<li>' + component + '</li>';
+            });
+            borrowedComponentsHTML += '</ul>';
+
+            document.getElementById('userProjects').innerHTML = projectsHTML;
+            document.getElementById('userBorrowedComponents').innerHTML = borrowedComponentsHTML;
+            $('#userInfoModal').modal('show');
+        }
+    };
+    xhr.send("id=" + userId);
+}
+</script>
+
+<!-- User Info Modal -->
+<div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="userInfoModalLabel">User Information</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="userProjects"></div>
+                <div id="userBorrowedComponents"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

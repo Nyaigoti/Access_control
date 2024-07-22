@@ -7,7 +7,7 @@
 <header>
     <div class="header">
         <div class="logo">
-            <a href="index.php">ACCESS CONTROL</a>
+            <a href="index.php">ERP SYSTEM</a>
         </div>
     </div>
     <?php  
@@ -19,24 +19,35 @@
     }
     ?>
     <div class="topnav" id="myTopnav">
-        <!-- Other navigation links -->
-        <?php  
-        if (isset($_SESSION['Admin-name'])) {
-            echo '<a href="#" data-toggle="modal" data-target="#admin-account">'.$_SESSION['Admin-name'].'</a>';
-            echo '<a href="logout.php">Log Out</a>';
-        }
-        else{
-            echo '<a href="login.php">Log In</a>';
-        }
-        ?>
+        
         <!-- Additional navigation links for index, ManageUsers, UsersLog, and devices -->
         <a href="index.php">Users</a>
         <a href="ManageUsers.php">Manage Users</a>
-        <a href="UsersLog.php">Users Log</a>
-        <a href="devices.php">Devices</a>
-        <a href="admins.php">Admins</a>
-                </div>
-            </div>
-        </div>
+        <a href="UsersLog.php">Attendance Logs</a>
+        <a href="projects.php">Projects</a>
+        <a href="inventory.php">Inventory</a>
+        <a href="admins.php">Sub-Admins</a>
+
+        <!-- Other navigation links -->
+        <?php  
+            if (isset($_SESSION['Admin-name'])) {
+                // Admin name link with modal trigger, wrapped in a div for separation
+                //echo '<div class="admin-name-link">';
+                //echo '<a href="#" data-toggle="modal" data-target="#admin-account">' . $_SESSION['Admin-name'] . '</a>';
+                //echo '</div>'; // Close admin-name-link div
+
+                // Log Out link, also wrapped in a separate div for separation
+                echo '<div class="logout-link">';
+                echo '<a href="logout.php">Log Out</a>';
+                echo '</div>'; // Close logout-link div
+            }
+            else{
+                // Log In link for users who are not logged in, optionally wrapped in a div
+                echo '<div class="login-link">';
+                echo '<a href="login.php">Log In</a>';
+                echo '</div>'; // Close login-link div
+            }
+        ?>
+            
     </div>
 </header>

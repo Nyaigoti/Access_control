@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "connectDB.php";
 
 // Include your database connection file here
 include 'connectDB.php';
@@ -36,7 +37,7 @@ if (!isset($_SESSION['Admin-name'])) {
 }
 
 // Retrieve admins from database
-$sql = "SELECT id, admin_name, admin_email, admin_password FROM admins";
+$sql = "SELECT id, admin_name, admin_email, admin_password, admin_dept FROM admins";
 $result = mysqli_query($conn, $sql);
 
 if (!$result) {
@@ -74,7 +75,20 @@ if (!$result) {
     </style>
 
     <script>
-        
+        $(document).ready(function(){
+            // Load admins
+            loadAdmins();
+        });
+
+        // Function to load admins
+        function loadAdmins() {
+            $.ajax({
+                url: "load_admins.php", // This PHP file will handle the backend processing
+                type: 'GET',
+            }).done(function(data) {
+                $('#admins').html(data);
+            });
+        }
 
         // Function to delete an admin
         function deleteAdmin(adminId) {
@@ -127,6 +141,7 @@ if (!$result) {
                                     <tr>
                                         <th>Name</th>
                                         <th>Email Address</th>
+                                        <th>Department</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -137,7 +152,7 @@ if (!$result) {
                                         echo "<tr>";
                                         echo "<td>" . $row['admin_name'] . "</td>";
                                         echo "<td>" . $row['admin_email'] . "</td>";
-                                        //echo "<td>" . $row['admin_password'] . "</td>";
+                                        echo "<td>" . $row['admin_dept'] . "</td>";
                                         echo "<td><button class='btn btn-danger' onclick='deleteAdmin(" . $row['id'] . ")'>Delete</button></td>";
                                         echo "</tr>";
                                     }
@@ -173,10 +188,15 @@ if (!$result) {
 
                     <label for="admin_password">Admin Password:</label>
                     <input type="password" id="admin_password" name="admin_password" required><br>
+                    
+                    <!-- Retrieve department options from the database -->
+                    <label for="admin_dept">Select Dept:</label>
+                    <input type="text" id="admin_dept" name="admin_dept" required><br>
+                    
 
+                    <!-- Add more options as needed -->
                     <input type="submit" value="Register">
                 </form>
                 <!-- Admin registration form ends here -->
             </div>
             <div class="modal-footer">
-               

@@ -25,13 +25,13 @@ if(isset($_POST['save_excel_data']))
         {
             if($count > 0)
             {
-                $name = $row['0'];
+                $username = $row['0'];
                 $serialnumber = $row['1'];
                 $gender = $row['2'];
                 $email = $row['3'];
                 $user_dept = $row['4'];
 
-                $userQuery = "INSERT INTO users (name,serialnumber,gender,email,user_dept ) VALUES ('$name','$serialnumber','$gender','$email','$user_dept')";
+                $userQuery = "INSERT INTO users (username,serialnumber,gender,email,user_dept ) VALUES ('$username','$serialnumber','$gender','$email','$user_dept')";
                 $result = mysqli_query($conn, $userQuery);
                 $msg = true;
             }
@@ -40,24 +40,24 @@ if(isset($_POST['save_excel_data']))
                 $count = "1";
             }
         }
-
+        
         if(isset($msg))
         {
             $_SESSION['message'] = "Successfully Imported";
-            header('Location: import.php');
+            header('Location: ManageUsers.php');
             exit(0);
         }
         else
         {
             $_SESSION['message'] = "Not Imported";
-            header('Location: import.php');
+            header('Location: ManageUsers.php');
             exit(0);
         }
     }
     else
     {
         $_SESSION['message'] = "Invalid File";
-        header('Location: import.php');
+        header('Location: ManageUsers.php');
         exit(0);
     }
 }

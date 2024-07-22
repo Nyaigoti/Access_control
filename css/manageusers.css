@@ -124,7 +124,7 @@ td{
 .form-style-5 input[type="email"]:hover,
 .form-style-5 input[type="number"]:hover,
 .form-style-5 input[type="time"]:hover {
-  border: 1px solid #388994;
+  border: 1px solid #388994; 
 }
 .form-style-5 select:hover,
 .form-style-5 input[type="radio"]:hover {

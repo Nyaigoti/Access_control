@@ -35,9 +35,10 @@ if (!isset($_SESSION['Admin-name'])) {
           <th>Name</th>
           <th>User Number</th>
           <th>Gender</th>
+          <th>Email</th>
           <th>Finger ID</th>
-          <th>Date</th>
           <th>Dept</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody class="table-secondary">
@@ -55,14 +56,15 @@ if (!isset($_SESSION['Admin-name'])) {
                 $resultl = mysqli_stmt_get_result($result);
                 if (mysqli_num_rows($resultl) > 0){
                     while ($row = mysqli_fetch_assoc($resultl)){
-          ?>
+        ?>
                       <TR>
-                      <TD><?php echo $row['id']; echo" | "; echo $row['name'];?></TD>
+                      <TD><?php echo $row['username'];?></TD>
                       <TD><?php echo $row['serialnumber'];?></TD>
                       <TD><?php echo $row['gender'];?></TD>
-                      <TD><?php echo $row['fingerprint_id'];?></TD>
-                      <TD><?php echo $row['user_date'];?></TD>
+                      <TD><?php echo $row['email'];?></TD>
+                      <TD><?php echo $row['fingerprint_id'];?></TD>                     
                       <TD><?php echo $row['user_dept'];?></TD>
+                      <TD><?php echo "<button class='btn btn-danger' onclick='deleteAdmin(" . $row['id'] . ")'>Delete</button>"; ?></TD>
                       </TR>
         <?php
                     }   
@@ -74,5 +76,23 @@ if (!isset($_SESSION['Admin-name'])) {
   </div>
 </section>
 </main>
+
+<script>
+function deleteAdmin(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "delete_user.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert('User deleted successfully');
+                window.location.reload(); // Reload the page to see the change
+            }
+        };
+        xhr.send("id=" + userId);
+    }
+}
+</script>
+
 </body>
 </html>

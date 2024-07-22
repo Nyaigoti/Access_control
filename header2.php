@@ -7,7 +7,7 @@
 <header>
   <div class="header">
     <div class="logo">
-      <a href="index.php">ACCESS CONTROL</a>
+      <a href="index.php">ERP SYSTEM</a>
     </div>
   </div>
   <?php  
@@ -19,6 +19,13 @@
   }
   ?>
   <div class="topnav" id="myTopnav">
+    <!-- Additional navigation links for index, ManageUsers, UsersLog, and devices -->
+    <a href="index2.php">Users</a>
+    <a href="ManageUsers2.php">Manage Users</a>
+    <a href="UsersLog2.php">Attendance Logs</a>
+    <a href="projects.php">Projects</a>
+    <a href="inventory.php">Inventory</a>
+
     <!-- Other navigation links -->
     <?php  
     if (isset($_SESSION['Admin-name'])) {
@@ -29,10 +36,6 @@
       echo '<a href="login.php">Log In</a>';
     }
     ?>
-    <!-- Additional navigation links for index, ManageUsers, UsersLog, and devices -->
-    <a href="index2.php">Users</a>
-    <a href="ManageUsers2.php">Manage Users</a>
-    <a href="UsersLog2.php">Users Log</a>
     <!-- End of additional navigation links -->
   </div>
   <!-- Other HTML elements -->
